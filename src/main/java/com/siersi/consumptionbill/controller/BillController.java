@@ -2,9 +2,8 @@ package com.siersi.consumptionbill.controller;
 
 import com.mybatisflex.core.paginate.Page;
 import com.siersi.consumptionbill.annotation.RateLimit;
-import com.siersi.consumptionbill.dto.AddRecordRequest;
-import com.siersi.consumptionbill.dto.BillRequest;
-import com.siersi.consumptionbill.entity.User;
+import com.siersi.consumptionbill.dto.BillDTO;
+import com.siersi.consumptionbill.dto.UpdateBillRequest;
 import com.siersi.consumptionbill.service.Bill.BillService;
 import com.siersi.consumptionbill.utils.PageParam;
 import com.siersi.consumptionbill.utils.Result;
@@ -55,7 +54,7 @@ public class BillController {
      */
     @PostMapping("/list")
     @RateLimit(key = "billList", time = 5, count = 20)
-    public Result<Page<BillVo>> getBillList(@RequestBody @Valid PageParam<Object> pageParam, @RequestHeader("Authorization") String authorization) {
+    public Result<Page<BillVo>> getBillList(@RequestBody @Valid PageParam<BillDTO> pageParam, @RequestHeader("Authorization") String authorization) {
         return Result.success(billService.getBills(pageParam, authorization));
     }
 
@@ -72,12 +71,12 @@ public class BillController {
     /**
      * 更新账单信息接口
      * 
-     * @param billRequest 包含待更新账单信息的请求对象
+     * @param updateBillRequest 包含待更新账单信息的请求对象
      * @return 更新结果，成功时返回成功信息
      */
     @PostMapping("/update")
-    public Result<Void> updateBill(@RequestBody @Valid BillRequest billRequest, @RequestHeader("Authorization") String authorization) {
-        billService.updateBill(billRequest, authorization);
+    public Result<Void> updateBill(@RequestBody @Valid UpdateBillRequest updateBillRequest, @RequestHeader("Authorization") String authorization) {
+        billService.updateBill(updateBillRequest, authorization);
         return Result.success("更新成功");
     }
 
@@ -91,7 +90,7 @@ public class BillController {
     public Result<List<UserVo>> getBillUsers(@RequestParam Long billId) {
         return Result.success(billService.getBillUsers(billId));
     }
-
+    
     @PostMapping("/delete-user")
     public Result<Void> deleteBillUser(@RequestParam Long billId, @RequestParam Long userId, @RequestHeader("Authorization") String authorization) {
         billService.deleteBillUser(billId, userId, authorization);

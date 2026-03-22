@@ -1,9 +1,7 @@
 package com.siersi.consumptionbill.controller;
 
-import com.siersi.consumptionbill.annotation.RateLimit;
 import com.siersi.consumptionbill.dto.AI.AIRequest;
 import com.siersi.consumptionbill.service.AI.AIService;
-import com.siersi.consumptionbill.utils.Result;
 import jakarta.annotation.Resource;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;

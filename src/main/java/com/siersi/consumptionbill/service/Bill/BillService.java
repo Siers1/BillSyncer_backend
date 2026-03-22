@@ -2,11 +2,10 @@ package com.siersi.consumptionbill.service.Bill;
 
 import com.mybatisflex.core.paginate.Page;
 import com.mybatisflex.core.service.IService;
-import com.siersi.consumptionbill.dto.AddRecordRequest;
-import com.siersi.consumptionbill.dto.BillRequest;
+import com.siersi.consumptionbill.dto.BillDTO;
+import com.siersi.consumptionbill.dto.UpdateBillRequest;
 import com.siersi.consumptionbill.dto.UserBillDTO;
 import com.siersi.consumptionbill.entity.Bill;
-import com.siersi.consumptionbill.entity.User;
 import com.siersi.consumptionbill.utils.PageParam;
 import com.siersi.consumptionbill.vo.BillVo;
 import com.siersi.consumptionbill.vo.UserVo;
@@ -20,7 +19,7 @@ import java.util.List;
  * @author siersi
  * @version 1.0
  */
-public interface BillService extends IService<Bill> {
+public interface BillService extends IService<Bill> { 
     
     /**
      * 创建新账单
@@ -39,14 +38,14 @@ public interface BillService extends IService<Bill> {
      * @param authorization 用户授权令牌
      * @return 账单列表的分页结果
      */
-    Page<BillVo> getBills(PageParam<Object> pageParam, String authorization);
+    Page<BillVo> getBills(PageParam<BillDTO> pageParam, String authorization);
 
     /**
      * 更新账单信息
      * 
-     * @param billRequest 账单更新请求对象，包含待更新的账单信息
+     * @param updateBillRequest 账单更新请求对象，包含待更新的账单信息
      */
-    void updateBill(BillRequest billRequest, String authorization);
+    void updateBill(UpdateBillRequest updateBillRequest, String authorization);
 
     void deleteBill(Long billId, String authorization);
 

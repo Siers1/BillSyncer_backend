@@ -84,20 +84,8 @@ public class JwtUtil {
     public Map<String, Object> generateTokensWithForceLogout(String account) {
         // 1. 先清除旧token（强制登出）
         clearOldTokens(account);
-        
-        // 2. 生成新token
-        String accessToken = createToken(account, accessTokenExpiration, "access");
-        String refreshToken = createToken(account, refreshTokenExpiration * 24 * 60, "refresh"); // 转换为分钟
-        
-        // 3. 存储到Redis
-        stringRedisTemplate.opsForValue().set("token:" + account, accessToken, accessTokenExpiration, TimeUnit.MINUTES);
-        stringRedisTemplate.opsForValue().set("refresh:" + account, refreshToken, refreshTokenExpiration, TimeUnit.DAYS);
-        
-        // 4. 返回结果
-        Map<String, Object> result = new HashMap<>();
-        result.put("accessToken", accessToken);
-        result.put("refreshToken", refreshToken);
-        return result;
+
+        return generateTokens(account);
     }
 
 

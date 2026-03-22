@@ -1,6 +1,6 @@
 package com.siersi.consumptionbill.converter;
 
-import com.siersi.consumptionbill.dto.BillRequest;
+import com.siersi.consumptionbill.dto.UpdateBillRequest;
 import com.siersi.consumptionbill.entity.Bill;
 import com.siersi.consumptionbill.vo.BillVo;
 import org.mapstruct.Mapper;
@@ -35,9 +35,9 @@ public interface BillConverter {
      * 将账单请求DTO转换为账单实体
      * 特殊映射：将billId字段映射到id字段
      * 
-     * @param billRequest 账单请求DTO对象
+     * @param updateBillRequest 账单请求DTO对象
      * @return 账单实体对象
      */
     @Mapping(target = "id", source = "billId")
-    Bill ToBill(BillRequest billRequest);
+    Bill ToBill(UpdateBillRequest updateBillRequest);
 }

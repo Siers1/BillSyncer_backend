@@ -47,11 +47,10 @@ public class StatisticsServiceImpl extends ServiceImpl<StatisticsVoMapper,Statis
         QueryWrapper queryWrapper = QueryWrapper.create()
                 .select("DATE(consumption_date) as time, SUM(item_price) as total")
                 .from("record")
+                .between("consumption_date", statisticDTO.getStartDate(), statisticDTO.getEndDate())
                 .eq("bill_id", statisticDTO.getBillId())
                 .eq("valid", 1)
-                .and("consumption_date between ? and ?", statisticDTO.getStartDate(), statisticDTO.getEndDate())
-                .groupBy("DATE(consumption_date)")
-                .orderBy("time", null);
+                .groupBy("DATE(consumption_date)");
 
         return statisticsVoMapper.selectListByQuery(queryWrapper);
     }

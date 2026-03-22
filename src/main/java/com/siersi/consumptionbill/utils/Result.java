@@ -37,7 +37,7 @@ public class Result<T> {
      * @return Result实例
      */
     private static <T> Result<T> of(int code, String msg, T data) {
-        Result<T> result = new Result<T>();
+        Result<T> result = new Result<>();
         result.setCode(code);
         result.setMsg(msg);
         result.setData(data);
@@ -90,7 +90,7 @@ public class Result<T> {
      * @return 失败响应结果
      */
     public static <T> Result<T> failure() {
-        return of(400, "请求失败", null);
+        return of(500, "请求失败", null);
     }
 
     /**

@@ -30,9 +30,6 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(rollbackFor = Exception.class)
 public class RecordServiceImpl extends ServiceImpl<RecordMapper, Record> implements RecordService {
 
-    /**
-     * 消费记录视图对象数据访问层接口
-     */
     @Resource
     private RecordVoMapper recordVoMapper;
 

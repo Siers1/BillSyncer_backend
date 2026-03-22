@@ -1,11 +1,13 @@
 package com.siersi.consumptionbill.service.Bill.Impl;
 
+import cn.hutool.core.util.StrUtil;
 import com.mybatisflex.core.paginate.Page;
 import com.mybatisflex.core.query.QueryWrapper;
 import com.mybatisflex.spring.service.impl.ServiceImpl;
 import com.siersi.consumptionbill.converter.BillConverter;
 import com.siersi.consumptionbill.converter.UserBillConverter;
-import com.siersi.consumptionbill.dto.BillRequest;
+import com.siersi.consumptionbill.dto.BillDTO;
+import com.siersi.consumptionbill.dto.UpdateBillRequest;
 import com.siersi.consumptionbill.dto.UserBillDTO;
 import com.siersi.consumptionbill.entity.Bill;
 import com.siersi.consumptionbill.entity.UserBill;
@@ -104,11 +106,9 @@ public class BillServiceImpl extends ServiceImpl<BillMapper, Bill> implements Bi
      * @return 账单列表的分页结果
      */
     @Override
-    public Page<BillVo> getBills(PageParam<Object> pageParam, String authorization) {
-        // 从授权令牌中获取用户ID
+    public Page<BillVo> getBills(PageParam<BillDTO> pageParam, String authorization) {
         Long userId = userService.getIdByAuthorization(authorization);
 
-        // 构建查询条件：查询用户有权访问的有效账单
         QueryWrapper queryWrapper = QueryWrapper.create()
                 .select("bill.*")
                 .from("bill")
@@ -117,7 +117,13 @@ public class BillServiceImpl extends ServiceImpl<BillMapper, Bill> implements Bi
                 .and("bill.valid = 1")
                 .and("user_bill.valid = 1");
 
-        // 执行分页查询并返回结果
+        if (StrUtil.isNotBlank(pageParam.getParams().getKeyWords())) {
+            String keyWords = "%" + pageParam.getParams().getKeyWords() + "%";
+            queryWrapper.and(w -> {
+                w.where("bill_name LIKE ?", keyWords);
+            });
+        }
+
         return billVoMapper.paginate(Page.of(pageParam.getPageNum(),pageParam.getPageSize()), queryWrapper);
     }
 
@@ -192,23 +198,23 @@ public class BillServiceImpl extends ServiceImpl<BillMapper, Bill> implements Bi
      * 更新账单信息实现
      * 根据账单ID查找账单并更新其信息
      * 
-     * @param billRequest 账单更新请求对象，包含待更新的账单信息
+     * @param updateBillRequest 账单更新请求对象，包含待更新的账单信息
      * @throws BusinessException 当账单不存在时抛出异常
      */
     @Override
-    public void updateBill(BillRequest billRequest, String authorization) {
+    public void updateBill(UpdateBillRequest updateBillRequest, String authorization) {
         // 验证操作者权限(需要是创建者)
-        checkPermission(billRequest.getBillId(), authorization, UserBillRole.CREATOR);
+        checkPermission(updateBillRequest.getBillId(), authorization, UserBillRole.CREATOR);
 
         // 检查账单是否存在
-        Bill bill = billMapper.selectOneById(billRequest.getBillId());
+        Bill bill = billMapper.selectOneById(updateBillRequest.getBillId());
 
         if (bill == null) {
             throw new BusinessException(400, "账本不存在");
         }
 
         // 使用转换器将请求对象转换为实体对象
-        bill = BillConverter.INSTANCE.ToBill(billRequest);
+        bill = BillConverter.INSTANCE.ToBill(updateBillRequest);
 
         // 更新账单信息
         billMapper.update(bill);

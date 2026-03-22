@@ -12,7 +12,7 @@ import lombok.Data;
  * @version 1.0
  */
 @Data
-public class BillRequest {
+public class UpdateBillRequest {
 
     /**
      * 账单ID，更新时必须提供，不能为空
