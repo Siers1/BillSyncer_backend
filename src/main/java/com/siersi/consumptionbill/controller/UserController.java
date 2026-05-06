@@ -10,6 +10,7 @@ import com.siersi.consumptionbill.service.User.UserService;
 import com.siersi.consumptionbill.utils.Result;
 import com.siersi.consumptionbill.vo.UserVo;
 import jakarta.annotation.Resource;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,16 +24,10 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/user")
+@RequiredArgsConstructor
 public class UserController {
-
-    /**
-     * 用户服务层依赖注入
-     */
-    @Resource
-    private UserService userService;
-
-    @Resource
-    private UserVoMapper userVoMapper;
+    private final UserService userService;
+    private final UserVoMapper userVoMapper;
 
     /**
      * 获取当前登录用户详细信息接口

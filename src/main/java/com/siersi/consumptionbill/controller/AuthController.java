@@ -8,6 +8,7 @@ import com.siersi.consumptionbill.websocket.WebSocketService;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
@@ -21,19 +22,10 @@ import java.util.Map;
  */
 @RestController()
 @RequestMapping("/auth")
+@RequiredArgsConstructor
 public class AuthController {
-    
-    /**
-     * 用户服务层依赖注入
-     */
-    @Resource
-    private UserService userService;
-
-    /**
-     * JWT工具类依赖注入
-     */
-    @Resource
-    private JwtUtil jwtUtil;
+    private final UserService userService;
+    private final JwtUtil jwtUtil;
 
     /**
      * 用户注册接口

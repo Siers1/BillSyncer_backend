@@ -4,6 +4,7 @@ import com.aliyun.oss.OSS;
 import com.siersi.consumptionbill.config.OssConfig;
 import com.siersi.consumptionbill.service.File.FileService;
 import jakarta.annotation.Resource;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -12,13 +13,10 @@ import java.io.IOException;
 import java.util.UUID;
 
 @Service
+@RequiredArgsConstructor
 public class FileServiceImpl implements FileService {
-    
-    @Resource
-    private OSS ossClient;
-    
-    @Resource
-    private OssConfig ossConfig;
+    private final OSS ossClient;
+    private final OssConfig ossConfig;
     
     @Override
     public String uploadImage(MultipartFile file) {

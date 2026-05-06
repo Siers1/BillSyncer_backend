@@ -3,6 +3,7 @@ package com.siersi.consumptionbill.controller;
 import com.siersi.consumptionbill.dto.AI.AIRequest;
 import com.siersi.consumptionbill.service.AI.AIService;
 import jakarta.annotation.Resource;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
@@ -10,10 +11,10 @@ import java.io.IOException;
 
 @RestController
 @RequestMapping("/ai")
+@RequiredArgsConstructor
 public class AIController {
 
-    @Resource
-    private AIService aiService;
+    private final AIService aiService;
 
     @PostMapping("/analyze")
     public SseEmitter AIAnalyze(@RequestBody AIRequest request) {

@@ -5,6 +5,7 @@ import com.siersi.consumptionbill.exception.RateLimitException;
 import com.siersi.consumptionbill.service.User.UserService;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -19,16 +20,11 @@ import org.springframework.stereotype.Component;
 @Aspect
 @Component
 @Slf4j
+@RequiredArgsConstructor
 public class RateLimitAspect {
-
-    @Resource
-    private RedissonClient redissonClient;
-
-    @Resource
-    private HttpServletRequest request;
-
-    @Resource
-    private UserService userService;
+    private final RedissonClient redissonClient;
+    private final HttpServletRequest request;
+    private final UserService userService;
 
     @Around("@annotation(rateLimit)")
     /*

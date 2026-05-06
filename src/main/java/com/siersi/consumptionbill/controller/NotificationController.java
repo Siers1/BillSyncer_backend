@@ -6,17 +6,15 @@ import com.siersi.consumptionbill.service.Notification.NotificationService;
 import com.siersi.consumptionbill.utils.Result;
 import jakarta.annotation.Resource;
 import jakarta.websocket.server.PathParam;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/notification")
+@RequiredArgsConstructor
 public class NotificationController {
-
-    @Resource
-    private InvitationService invitationService;
-
-    @Resource
-    private NotificationService notificationService;
+    private final InvitationService invitationService;
+    private final NotificationService notificationService;
 
     @GetMapping("/unread-count")
     public Result<Long> getUnReadCount(@RequestHeader("Authorization") String authorization) {

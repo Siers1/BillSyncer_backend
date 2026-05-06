@@ -8,19 +8,17 @@ import com.siersi.consumptionbill.vo.StatisticsVo;
 import com.siersi.consumptionbill.vo.PaymentVo;
 import jakarta.annotation.Resource;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/statistics")
+@RequiredArgsConstructor
 public class StatisticsController {
-
-    @Resource
-    private StatisticsService statisticsService;
-
-    @Resource
-    private UserService userService;
+    private final StatisticsService statisticsService;
+    private final UserService userService;
 
     @PostMapping("/summary")
     public Result<List<StatisticsVo>> getStatistics(@RequestBody @Valid StatisticDTO statisticDTO) {

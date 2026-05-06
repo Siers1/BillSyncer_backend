@@ -13,6 +13,7 @@ import com.siersi.consumptionbill.service.Statistics.StatisticsService;
 import com.siersi.consumptionbill.vo.PaymentVo;
 import com.siersi.consumptionbill.vo.StatisticsVo;
 import jakarta.annotation.Resource;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,19 +22,12 @@ import java.util.List;
 
 @Service
 @Transactional(rollbackFor = Exception.class)
+@RequiredArgsConstructor
 public class StatisticsServiceImpl extends ServiceImpl<StatisticsVoMapper,StatisticsVo> implements StatisticsService {
-
-    @Resource
-    private BillMapper billMapper;
-
-    @Resource
-    private StatisticsVoMapper statisticsVoMapper;
-
-    @Resource
-    private UserMapper userMapper;
-
-    @Resource
-    private TypeMapper typeMapper;
+    private final BillMapper billMapper;
+    private final StatisticsVoMapper statisticsVoMapper;
+    private final UserMapper userMapper;
+    private final TypeMapper typeMapper;
 
     @Override
     public List<StatisticsVo> getStatistics(StatisticDTO statisticDTO) {

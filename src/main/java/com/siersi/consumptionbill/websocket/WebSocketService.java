@@ -9,6 +9,7 @@ import jakarta.websocket.OnOpen;
 import jakarta.websocket.Session;
 import jakarta.websocket.server.PathParam;
 import jakarta.websocket.server.ServerEndpoint;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
@@ -18,19 +19,10 @@ import java.util.concurrent.ConcurrentHashMap;
 @Slf4j
 @Component
 @ServerEndpoint("/websocket/{token}")
+@RequiredArgsConstructor
 public class WebSocketService {
-    private static UserService userService;
-    private static JwtUtil jwtUtil;
-
-    @Resource
-    public void setUserService(UserService userService) {
-        WebSocketService.userService = userService;
-    }
-
-    @Resource
-    public void setJwtUtil(JwtUtil jwtUtil) {
-        WebSocketService.jwtUtil = jwtUtil;
-    }
+    private final UserService userService;
+    private final JwtUtil jwtUtil;
 
     private static final ConcurrentHashMap<Long, Session> userSessions = new ConcurrentHashMap<>();
 

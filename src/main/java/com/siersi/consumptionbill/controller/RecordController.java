@@ -11,6 +11,7 @@ import com.siersi.consumptionbill.utils.Result;
 import com.siersi.consumptionbill.vo.RecordVo;
 import jakarta.annotation.Resource;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -24,13 +25,9 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/record")
+@RequiredArgsConstructor
 public class RecordController {
-
-    /**
-     * 消费记录服务层依赖注入
-     */
-    @Resource
-    private RecordService recordService;
+    private final RecordService recordService;
 
     /**
      * 获取消费记录列表接口（分页查询）

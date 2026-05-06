@@ -14,7 +14,7 @@ import com.siersi.consumptionbill.mapper.UserMapper;
 import com.siersi.consumptionbill.service.User.UserService;
 import com.siersi.consumptionbill.utils.JwtUtil;
 import com.siersi.consumptionbill.vo.UserVo;
-import jakarta.annotation.Resource;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,25 +30,24 @@ import org.springframework.util.DigestUtils;
  */
 @Service
 @Transactional(rollbackFor = Exception.class)
+@RequiredArgsConstructor
 public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements UserService {
 
     /**
      * 密码加密的盐值，从配置文件中读取
      */
     @Value("${jwt.salt}")
-    private String SALT;
+    private String salt;
 
     /**
      * JWT工具类，用于令牌解析
      */
-    @Resource
-    private JwtUtil jwtUtil;
+    private final JwtUtil jwtUtil;
 
     /**
      * 用户数据访问层接口
      */
-    @Resource
-    private UserMapper userMapper;
+    private final UserMapper userMapper;
 
     /**
      * 用户注册实现
@@ -70,7 +69,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         }
 
         // 使用MD5+盐值加密密码
-        String encryptPassword = DigestUtils.md5DigestAsHex((SALT + loginRequest.getPassword()).getBytes());
+        String encryptPassword = DigestUtils.md5DigestAsHex((salt + loginRequest.getPassword()).getBytes());
 
         // 创建新用户
         User newUser = new User();
@@ -90,7 +89,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     @Override
     public void login(LoginRequest loginRequest) {
         // 对输入密码进行加密，用于与数据库中的密码比较
-        String encryptPassword = DigestUtils.md5DigestAsHex((SALT + loginRequest.getPassword()).getBytes());
+        String encryptPassword = DigestUtils.md5DigestAsHex((salt + loginRequest.getPassword()).getBytes());
 
         // 根据账号查询用户信息
         QueryWrapper queryWrapper = QueryWrapper.create()
@@ -134,8 +133,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         Long userId = getIdByAuthorization(authorization);
         User user = userMapper.selectOneById(userId);
 
-        String oldPassword = DigestUtils.md5DigestAsHex((SALT + passwordDTO.getOldPassword()).getBytes());
-        String newPassword = DigestUtils.md5DigestAsHex((SALT + passwordDTO.getNewPassword()).getBytes());
+        String oldPassword = DigestUtils.md5DigestAsHex((salt + passwordDTO.getOldPassword()).getBytes());
+        String newPassword = DigestUtils.md5DigestAsHex((salt + passwordDTO.getNewPassword()).getBytes());
 
         if (!user.getPassword().equals(oldPassword)) {
             throw new BusinessException("原密码错误");
@@ -181,6 +180,6 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     @Override
     public UserVo getUserById(Long id) {
         User user = getById(id);
-        return BeanUtil.copyProperties(user, UserVo.class);
+        return UserConverter.INSTANCE.toVo(user);
     }
 }

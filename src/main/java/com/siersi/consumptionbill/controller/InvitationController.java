@@ -7,15 +7,16 @@ import com.siersi.consumptionbill.utils.Result;
 import com.siersi.consumptionbill.vo.InvitationVo;
 import jakarta.annotation.Resource;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/invitation")
+@RequiredArgsConstructor
 public class InvitationController {
-    @Resource
-    private InvitationService invitationService;
+    private final InvitationService invitationService;
 
     @PostMapping("/send")
     public Result<Void> sendInvitation(@RequestBody @Valid InvitationRequest invitationRequest) {

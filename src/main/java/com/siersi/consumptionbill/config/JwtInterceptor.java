@@ -5,6 +5,7 @@ import com.siersi.consumptionbill.utils.JwtUtil;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 
@@ -16,13 +17,9 @@ import org.springframework.web.servlet.HandlerInterceptor;
  * @version 1.0
  */
 @Component
+@RequiredArgsConstructor
 public class JwtInterceptor implements HandlerInterceptor {
-
-    /**
-     * JWT工具类依赖注入
-     */
-    @Resource
-    private JwtUtil jwtUtil;
+    private final JwtUtil jwtUtil;
 
     /**
      * 在请求处理前执行的方法，用于验证JWT令牌

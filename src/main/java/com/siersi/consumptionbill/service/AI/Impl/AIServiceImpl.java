@@ -14,6 +14,7 @@ import com.siersi.consumptionbill.service.AI.AIService;
 import com.siersi.consumptionbill.service.Record.RecordService;
 import com.siersi.consumptionbill.service.User.UserService;
 import jakarta.annotation.Resource;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
@@ -24,16 +25,11 @@ import java.io.IOException;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class AIServiceImpl implements AIService {
-
-    @Resource
-    private AIConfig aiConfig;
-
-    @Resource
-    private ObjectMapper objectMapper;
-
-    @Resource
-    private RecordMapper recordMapper;
+    private final AIConfig aiConfig;
+    private final ObjectMapper objectMapper;
+    private final RecordMapper recordMapper;
 
     @Override
     public Flux<AINetMessage> analyze(AIRequest request) {

@@ -11,6 +11,7 @@ import com.siersi.consumptionbill.vo.BillVo;
 import com.siersi.consumptionbill.vo.UserVo;
 import jakarta.annotation.Resource;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -24,13 +25,13 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/bill")
+@RequiredArgsConstructor
 public class BillController {
     
     /**
      * 账单服务层依赖注入
      */
-    @Resource
-    private BillService billService;
+    private final BillService billService;
 
     /**
      * 创建新账单接口

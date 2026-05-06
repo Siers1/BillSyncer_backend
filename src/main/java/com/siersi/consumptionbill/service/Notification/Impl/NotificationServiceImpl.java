@@ -8,18 +8,15 @@ import com.siersi.consumptionbill.mapper.NotificationMapper;
 import com.siersi.consumptionbill.service.Invitation.InvitationService;
 import com.siersi.consumptionbill.service.Notification.NotificationService;
 import jakarta.annotation.Resource;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional(rollbackFor = Exception.class)
+@RequiredArgsConstructor
 public class NotificationServiceImpl extends ServiceImpl<NotificationMapper, Notification> implements NotificationService {
-
-    @Resource
-    private NotificationMapper notificationMapper;
-
-    @Resource
-    private InvitationService invitationService;
+    private final NotificationMapper notificationMapper;
 
     @Override
     public void read(Long invitationId) {

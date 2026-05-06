@@ -16,6 +16,7 @@ import com.siersi.consumptionbill.service.Record.RecordService;
 import com.siersi.consumptionbill.utils.PageParam;
 import com.siersi.consumptionbill.vo.RecordVo;
 import jakarta.annotation.Resource;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,13 +29,10 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Service
 @Transactional(rollbackFor = Exception.class)
+@RequiredArgsConstructor
 public class RecordServiceImpl extends ServiceImpl<RecordMapper, Record> implements RecordService {
-
-    @Resource
-    private RecordVoMapper recordVoMapper;
-
-    @Resource
-    private RecordMapper recordMapper;
+    private final RecordVoMapper recordVoMapper;
+    private final RecordMapper recordMapper;
 
     /**
      * 获取消费记录列表实现（分页查询）

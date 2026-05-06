@@ -20,6 +20,7 @@ import com.siersi.consumptionbill.utils.PageParam;
 import com.siersi.consumptionbill.vo.BillVo;
 import com.siersi.consumptionbill.vo.UserVo;
 import jakarta.annotation.Resource;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -35,34 +36,13 @@ import java.util.List;
  */
 @Service
 @Transactional(rollbackFor = Exception.class)
+@RequiredArgsConstructor
 public class BillServiceImpl extends ServiceImpl<BillMapper, Bill> implements BillService {
-    
-    /**
-     * 账单数据访问层接口
-     */
-    @Resource
-    private BillMapper billMapper;
-
-    /**
-     * 账单视图对象数据访问层接口
-     */
-    @Resource
-    private BillVoMapper billVoMapper;
-
-    /**
-     * 用户账单关联数据访问层接口
-     */
-    @Resource
-    private UserBillMapper userBillMapper;
-
-    /**
-     * 用户服务接口，用于获取用户信息
-     */
-    @Resource
-    private UserService userService;
-
-    @Resource
-    private UserVoMapper userVoMapper;
+    private final BillMapper billMapper;
+    private final BillVoMapper billVoMapper;
+    private final UserBillMapper userBillMapper;
+    private final UserService userService;
+    private final UserVoMapper userVoMapper;
 
     /**
      * 创建新账单实现

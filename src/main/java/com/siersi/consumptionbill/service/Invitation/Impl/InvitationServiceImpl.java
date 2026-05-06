@@ -22,6 +22,7 @@ import com.siersi.consumptionbill.service.User.UserService;
 import com.siersi.consumptionbill.vo.InvitationVo;
 import com.siersi.consumptionbill.websocket.WebSocketService;
 import jakarta.annotation.Resource;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,25 +30,14 @@ import java.util.List;
 
 @Service
 @Transactional(rollbackFor = Exception.class)
+@RequiredArgsConstructor
 public class InvitationServiceImpl extends ServiceImpl<InvitationMapper, Invitation> implements InvitationService {
-
-    @Resource
-    private InvitationMapper invitationMapper;
-
-    @Resource
-    private NotificationMapper notificationMapper;
-
-    @Resource
-    private InvitationVoMapper invitationVoMapper;
-
-    @Resource
-    private UserBillMapper userBillMapper;
-
-    @Resource
-    private BillService billService;
-
-    @Resource
-    private UserService userService;
+    private final InvitationMapper invitationMapper;
+    private final NotificationMapper notificationMapper;
+    private final InvitationVoMapper invitationVoMapper;
+    private final UserBillMapper userBillMapper;
+    private final BillService billService;
+    private final UserService userService;
 
     public boolean checkPermission(InvitationRequest invitationRequest) {
         QueryWrapper queryWrapper = QueryWrapper.create()
