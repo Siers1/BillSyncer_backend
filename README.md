@@ -17,6 +17,7 @@
 - **数据库**: MySQL 8.0 + MyBatis-Flex + Redis
 - **安全认证**: JWT
 - **第三方服务**: 阿里云 OSS、硅基流动 AI API
+- **构建工具**: Gradle (Kotlin DSL)
 - **开发工具**: Lombok + MapStruct + Hutool
 
 ## 快速开始
@@ -31,7 +32,7 @@ cd BillSyncer_backend
 - JDK 21+
 - MySQL 8.0+
 - Redis 6.0+
-- Maven 3.6+
+- Gradle 8.x+
 
 ### 初始化数据库
 ```bash
@@ -43,13 +44,13 @@ mysql -u root -p < db.sql
 
 ### 运行
 ```bash
-mvn spring-boot:run
+./gradlew bootRun
 ```
 
 ### Docker 构建镜像
 ```bash
 # 构建
-mvn clean package -DskipTests
+./gradlew bootJar
 docker build -t consumption-bill .
 
 # 运行
