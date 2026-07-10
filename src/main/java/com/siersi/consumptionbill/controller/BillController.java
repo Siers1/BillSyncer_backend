@@ -9,7 +9,6 @@ import com.siersi.consumptionbill.utils.PageParam;
 import com.siersi.consumptionbill.utils.Result;
 import com.siersi.consumptionbill.vo.BillVo;
 import com.siersi.consumptionbill.vo.UserVo;
-import jakarta.annotation.Resource;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -54,7 +53,7 @@ public class BillController {
      * @return 包含账单列表的分页结果
      */
     @PostMapping("/list")
-    @RateLimit(key = "billList", time = 5, count = 20)
+    @RateLimit(key = "billList", time = 60, count = 1)
     public Result<Page<BillVo>> getBillList(@RequestBody @Valid PageParam<BillDTO> pageParam, @RequestHeader("Authorization") String authorization) {
         return Result.success(billService.getBills(pageParam, authorization));
     }

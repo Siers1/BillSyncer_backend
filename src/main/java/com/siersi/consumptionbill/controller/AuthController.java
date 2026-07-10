@@ -5,7 +5,6 @@ import com.siersi.consumptionbill.service.User.UserService;
 import com.siersi.consumptionbill.utils.JwtUtil;
 import com.siersi.consumptionbill.utils.Result;
 import com.siersi.consumptionbill.websocket.WebSocketService;
-import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

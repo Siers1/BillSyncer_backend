@@ -6,7 +6,6 @@ import com.siersi.consumptionbill.service.User.UserService;
 import com.siersi.consumptionbill.utils.Result;
 import com.siersi.consumptionbill.vo.StatisticsVo;
 import com.siersi.consumptionbill.vo.PaymentVo;
-import jakarta.annotation.Resource;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;

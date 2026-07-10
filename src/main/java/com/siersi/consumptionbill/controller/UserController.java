@@ -3,13 +3,10 @@ package com.siersi.consumptionbill.controller;
 import com.mybatisflex.core.query.QueryWrapper;
 import com.siersi.consumptionbill.dto.PasswordDTO;
 import com.siersi.consumptionbill.dto.UserDTO;
-import com.siersi.consumptionbill.entity.User;
-import com.siersi.consumptionbill.mapper.UserMapper;
 import com.siersi.consumptionbill.mapper.UserVoMapper;
 import com.siersi.consumptionbill.service.User.UserService;
 import com.siersi.consumptionbill.utils.Result;
 import com.siersi.consumptionbill.vo.UserVo;
-import jakarta.annotation.Resource;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 

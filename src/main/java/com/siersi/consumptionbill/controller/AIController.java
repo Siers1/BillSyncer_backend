@@ -2,7 +2,6 @@ package com.siersi.consumptionbill.controller;
 
 import com.siersi.consumptionbill.dto.AI.AIRequest;
 import com.siersi.consumptionbill.service.AI.AIService;
-import jakarta.annotation.Resource;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;

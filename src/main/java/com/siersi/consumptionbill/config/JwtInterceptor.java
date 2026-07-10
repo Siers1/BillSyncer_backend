@@ -2,7 +2,6 @@ package com.siersi.consumptionbill.config;
 
 import com.siersi.consumptionbill.exception.BusinessException;
 import com.siersi.consumptionbill.utils.JwtUtil;
-import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;

@@ -3,7 +3,6 @@ package com.siersi.consumptionbill.controller;
 import com.siersi.consumptionbill.exception.BusinessException;
 import com.siersi.consumptionbill.service.File.FileService;
 import com.siersi.consumptionbill.utils.Result;
-import jakarta.annotation.Resource;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

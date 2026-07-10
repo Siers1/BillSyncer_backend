@@ -4,17 +4,13 @@ import com.mybatisflex.core.paginate.Page;
 import com.siersi.consumptionbill.dto.AddRecordRequest;
 import com.siersi.consumptionbill.dto.RecordDTO;
 import com.siersi.consumptionbill.dto.UpdateRecordRequest;
-import com.siersi.consumptionbill.entity.Record;
 import com.siersi.consumptionbill.service.Record.RecordService;
 import com.siersi.consumptionbill.utils.PageParam;
 import com.siersi.consumptionbill.utils.Result;
 import com.siersi.consumptionbill.vo.RecordVo;
-import jakarta.annotation.Resource;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 /**
  * 消费记录管理控制器

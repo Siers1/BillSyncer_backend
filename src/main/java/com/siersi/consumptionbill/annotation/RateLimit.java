@@ -4,9 +4,9 @@ import com.siersi.consumptionbill.enums.LimitType;
 
 import java.lang.annotation.*;
 
-@Documented // 表示这个注解会被javadoc记录
-@Target(ElementType.METHOD) // 表示注解只能用在方法上
-@Retention(RetentionPolicy.RUNTIME) // 注解生命周期: 运行时保留
+@Documented
+@Target(ElementType.METHOD)
+@Retention(RetentionPolicy.RUNTIME)
 public @interface RateLimit {
 
     /**

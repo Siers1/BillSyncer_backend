@@ -5,7 +5,6 @@ import com.siersi.consumptionbill.dto.InvitationRequest;
 import com.siersi.consumptionbill.service.Invitation.InvitationService;
 import com.siersi.consumptionbill.utils.Result;
 import com.siersi.consumptionbill.vo.InvitationVo;
-import jakarta.annotation.Resource;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
