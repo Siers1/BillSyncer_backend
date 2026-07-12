@@ -26,10 +26,6 @@ import java.util.List;
 @RequestMapping("/bill")
 @RequiredArgsConstructor
 public class BillController {
-    
-    /**
-     * 账单服务层依赖注入
-     */
     private final BillService billService;
 
     /**

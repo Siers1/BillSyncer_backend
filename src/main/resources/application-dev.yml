@@ -31,6 +31,9 @@ jwt:
   refresh-token-expiration: 7
   salt: "siersi"
 
+mapstruct:
+  unmapped-target-policy: ignore
+
 aliyun:
   oss:
     endpoint: your-endpoint

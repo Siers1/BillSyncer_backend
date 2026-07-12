@@ -19,44 +19,20 @@ import java.util.Date;
 @Table(value = "user")
 public class User implements Serializable {
 
-    /**
-     * 用户ID，主键，自增
-     */
     @Id(keyType = KeyType.Auto)
     private Long id;
 
-    /**
-     * 用户账号，用于登录
-     */
     private String account;
 
-    /**
-     * 用户密码，加密存储
-     */
     private String password;
 
-    /**
-     * 用户名，显示名称
-     */
     private String username;
 
-    /**
-     * 用户头像URL
-     */
     private String avatar;
 
-    /**
-     * 创建时间
-     */
     private Date createTime;
 
-    /**
-     * 更新时间
-     */
     private Date updateTime;
 
-    /**
-     * 有效性标志，0-无效，1-有效
-     */
     private Integer valid;
 }

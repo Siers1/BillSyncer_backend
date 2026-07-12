@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class WebSocketConfigurator extends ServerEndpointConfig.Configurator implements ApplicationContextAware {
-    
+
     private static volatile BeanFactory beanFactory;
 
     @Override

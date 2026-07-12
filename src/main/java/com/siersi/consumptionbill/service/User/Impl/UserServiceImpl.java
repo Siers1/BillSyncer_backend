@@ -38,15 +38,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
      */
     @Value("${jwt.salt}")
     private String salt;
-
-    /**
-     * JWT工具类，用于令牌解析
-     */
     private final JwtUtil jwtUtil;
-
-    /**
-     * 用户数据访问层接口
-     */
     private final UserMapper userMapper;
 
     /**

@@ -3,7 +3,6 @@ package com.siersi.consumptionbill.aspect;
 import com.siersi.consumptionbill.annotation.RateLimit;
 import com.siersi.consumptionbill.exception.RateLimitException;
 import com.siersi.consumptionbill.service.User.UserService;
-import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -27,11 +26,6 @@ public class RateLimitAspect {
     private final UserService userService;
 
     @Around("@annotation(rateLimit)")
-    /*
-    @Around：环绕通知，可以在方法执行前后进行处理
-    @annotation(rateLimit)：拦截带有@RateLimit注解的方法
-    rateLimit参数：Spring自动注入方法上的@RateLimit注解对象
-     */
     public Object around(ProceedingJoinPoint joinPoint, RateLimit rateLimit) throws Throwable {
         try {
             String limitKey = buildLimitKey(joinPoint, rateLimit);
@@ -62,12 +56,8 @@ public class RateLimitAspect {
         } catch (RateLimitException e) {
             throw e;
         } catch (Exception e) {
-            // ========== 异常处理：降级策略 ==========
-            // 如果Redis连接失败或其他异常，不应该影响业务
-            // 采取降级策略：记录错误日志，放行请求
             log.error("限流组件异常，降级放行请求 - 方法: {}, 异常: {}", joinPoint.getSignature().getName(), e.getMessage(), e);
 
-            // 放行请求，保证业务可用性
             return joinPoint.proceed();
         }
     }

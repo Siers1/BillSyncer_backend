@@ -2,13 +2,13 @@ package com.siersi.consumptionbill.websocket;
 
 import com.siersi.consumptionbill.service.User.UserService;
 import com.siersi.consumptionbill.utils.JwtUtil;
-import jakarta.annotation.Resource;
 import jakarta.websocket.OnClose;
 import jakarta.websocket.OnMessage;
 import jakarta.websocket.OnOpen;
 import jakarta.websocket.Session;
 import jakarta.websocket.server.PathParam;
 import jakarta.websocket.server.ServerEndpoint;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
@@ -18,12 +18,11 @@ import java.util.concurrent.ConcurrentHashMap;
 @Slf4j
 @Component
 @ServerEndpoint(value = "/websocket/{token}", configurator = WebSocketConfigurator.class)
+@RequiredArgsConstructor
 public class WebSocketService {
-    @Resource
-    private UserService userService;
-    
-    @Resource
-    private JwtUtil jwtUtil;
+
+    private final UserService userService;
+    private final JwtUtil jwtUtil;
 
     private static final ConcurrentHashMap<Long, Session> userSessions = new ConcurrentHashMap<>();
 

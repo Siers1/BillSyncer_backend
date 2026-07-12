@@ -6,6 +6,7 @@ import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.siersi.consumptionbill.exception.BusinessException;
+import com.siersi.consumptionbill.vo.TokenVo;
 import jakarta.annotation.Resource;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -48,7 +49,7 @@ public class JwtUtil {
      * @param account 用户账号，作为令牌的主题
      * @return 包含访问令牌和刷新令牌的Map
      */
-    public Map<String, Object> generateTokens(String account) {
+    public TokenVo generateTokens(String account) {
         // 1. 生成新token
         String accessToken = createToken(account, accessTokenExpiration, "access");
         String refreshToken = createToken(account, refreshTokenExpiration * 24 * 60, "refresh"); // 转换为分钟
@@ -58,9 +59,9 @@ public class JwtUtil {
         stringRedisTemplate.opsForValue().set("refresh:" + account, refreshToken, refreshTokenExpiration, TimeUnit.DAYS);
         
         // 3. 返回结果
-        Map<String, Object> result = new HashMap<>();
-        result.put("accessToken", accessToken);
-        result.put("refreshToken", refreshToken);
+        TokenVo result = new TokenVo();
+        result.setAccessToken(accessToken);
+        result.setRefreshToken(refreshToken);
         return result;
     }
 
@@ -82,7 +83,7 @@ public class JwtUtil {
      * @param account 用户账号，作为令牌的主题
      * @return 包含访问令牌和刷新令牌的Map
      */
-    public Map<String, Object> generateTokensWithForceLogout(String account) {
+    public TokenVo generateTokensWithForceLogout(String account) {
         // 1. 先清除旧token（强制登出）
         clearOldTokens(account);
 
@@ -169,7 +170,7 @@ public class JwtUtil {
      * @return 新的token对
      * @throws BusinessException 如果刷新令牌无效
      */
-    public Map<String, Object> refreshToken(String refreshToken) {
+    public TokenVo refreshToken(String refreshToken) {
         try {
             // 验证refresh token
             JWTVerifier verifier = JWT.require(Algorithm.HMAC256(secret)).build();

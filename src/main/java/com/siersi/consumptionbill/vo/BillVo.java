@@ -14,19 +14,8 @@ import java.util.Date;
  */
 @Data
 public class BillVo {
-    
-    /**
-     * 账单ID
-     */
+
     private Long id;
-    
-    /**
-     * 账单名称
-     */
     private String billName;
-    
-    /**
-     * 创建时间
-     */
     private Date createTime;
 }

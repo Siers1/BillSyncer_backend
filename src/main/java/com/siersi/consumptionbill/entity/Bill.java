@@ -20,29 +20,14 @@ import java.util.Date;
 @Table(value = "bill")
 public class Bill implements Serializable {
 
-    /**
-     * 账单ID，主键，自增
-     */
     @Id(keyType = KeyType.Auto)
     private Long id;
 
-    /**
-     * 账单名称
-     */
     private String billName;
 
-    /**
-     * 创建时间
-     */
     private Date createTime;
 
-    /**
-     * 更新时间
-     */
     private Date updateTime;
 
-    /**
-     * 有效性标志，0-无效，1-有效
-     */
     private Integer valid;
 }

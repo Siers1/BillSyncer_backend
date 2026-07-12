@@ -22,6 +22,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Flux;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -135,18 +136,23 @@ public class AIServiceImpl implements AIService {
                 回答要求：
                 - 提供具体可行的建议, 分点markdown形式
                 - 没必要每条消费记录都分析, 结合全部给出综合分析就行
-                - 结合消费时间和现在的时间(注意是现在)
+                - 结合消费时间和现在的时间
                 - 控制在200字以内, 末尾不要给出多少字
                 - 不要出现其他记账之类的账本工具软件, 因为我自己这个就是一个账本工具
                 - 如果下方给你的数据中不为空就按照提示词回答, 如果没有数据的话就让用户去消费之类的填充一下账本, 灵活变通
-                下面是账本数据:""";
+                下面是账本数据:
+                """;
 
         QueryWrapper queryWrapper = QueryWrapper.create().from("record")
                 .where("bill_id = ?", billId).and("valid = 1");
 
         String prompt2 = recordMapper.selectListByQuery(queryWrapper).toString();
 
-        String content = prompt1 + prompt2;
+        String prompt3 = "\n当前时间: " + LocalDate.now();
+
+        String content = prompt1 + prompt2 + prompt3;
+
+        System.out.println(content);
         messageList.getFirst().setContent(content);
 
         return messageList;
