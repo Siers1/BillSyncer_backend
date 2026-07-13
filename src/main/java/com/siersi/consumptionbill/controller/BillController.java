@@ -4,6 +4,7 @@ import com.mybatisflex.core.paginate.Page;
 import com.siersi.consumptionbill.annotation.RateLimit;
 import com.siersi.consumptionbill.dto.BillDTO;
 import com.siersi.consumptionbill.dto.UpdateBillRequest;
+import com.siersi.consumptionbill.enums.LimitType;
 import com.siersi.consumptionbill.service.Bill.BillService;
 import com.siersi.consumptionbill.utils.PageParam;
 import com.siersi.consumptionbill.utils.Result;
@@ -49,7 +50,7 @@ public class BillController {
      * @return 包含账单列表的分页结果
      */
     @PostMapping("/list")
-    @RateLimit(key = "billList", time = 60, count = 1)
+    @RateLimit(key = "billList", time = 5, count = 20)
     public Result<Page<BillVo>> getBillList(@RequestBody @Valid PageParam<BillDTO> pageParam, @RequestHeader("Authorization") String authorization) {
         return Result.success(billService.getBills(pageParam, authorization));
     }

@@ -10,11 +10,11 @@ import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.reflect.MethodSignature;
-import org.redisson.api.RRateLimiter;
-import org.redisson.api.RateIntervalUnit;
-import org.redisson.api.RateType;
+import org.redisson.api.RAtomicLong;
 import org.redisson.api.RedissonClient;
 import org.springframework.stereotype.Component;
+
+import java.time.Duration;
 
 @Aspect
 @Component
@@ -31,24 +31,24 @@ public class RateLimitAspect {
             String limitKey = buildLimitKey(joinPoint, rateLimit);
             log.debug("限流Key: {}", limitKey);
 
-            RRateLimiter rateLimiter = redissonClient.getRateLimiter(limitKey);
+            String counterKey = "rate_limit_counter:" + limitKey;
+            RAtomicLong counter = redissonClient.getAtomicLong(counterKey);
 
-            boolean rateSet = rateLimiter.trySetRate(
-                    RateType.OVERALL, // 限流模式: OVERALL表示全局限流
-                    rateLimit.count(), // 令牌数量: 限制时间内允许的请求次数
-                    rateLimit.time(), // 限制时间
-                    RateIntervalUnit.SECONDS // 秒为单位
-            );
+            long currentCount = counter.incrementAndGet();
 
-            if (rateSet) {
-                log.info("初始化限流器: {}, 规则: {}次/{} 秒", limitKey, rateLimit.count(), rateLimit.time());
+            // 如果是第一次，设置过期时间
+            if (currentCount == 1) {
+                counter.expire(Duration.ofSeconds(rateLimit.time()));
+                log.info("初始化限流计数器: {}, 规则: {}次/{}秒", limitKey, rateLimit.count(), rateLimit.time());
             }
 
-            boolean acquire = rateLimiter.tryAcquire();
-
-            if (!acquire) {
-                log.warn("接口被限流 - key: {}, 规则: {}次/{}秒", limitKey, rateLimit.count(), rateLimit.time());
-
+            if (currentCount > rateLimit.count()) {
+                long remainingTime = counter.remainTimeToLive() / 1000;
+                if (remainingTime < 0) {
+                    remainingTime = rateLimit.time();
+                }
+                log.warn("接口被限流 - key: {}, 当前: {}次, 规则: {}次/{}秒, 剩余: {}秒",
+                        limitKey, currentCount, rateLimit.count(), rateLimit.time(), remainingTime);
                 throw new RateLimitException("访问过于频繁，请稍后再试");
             }
 
@@ -64,7 +64,7 @@ public class RateLimitAspect {
 
     /**
      * 构造限流key
-     *
+     * <p>
      * 根据限流类型，生成不同的Redis key：
      * - IP限流：rate_limit:方法名:IP地址
      * - USER限流：rate_limit:方法名:user:用户ID
@@ -82,7 +82,7 @@ public class RateLimitAspect {
             key = signature.getMethod().getName();
         }
 
-        String limitKey = switch (rateLimit.limitType()) {
+        return switch (rateLimit.limitType()) {
             case IP -> {
                 String ip = getIpAddress(request);
                 yield "rate_limit: " + key + ": " + ip;
@@ -104,8 +104,6 @@ public class RateLimitAspect {
                 yield "rate_limit: " + key;
             }
         };
-
-        return limitKey;
     }
 
     private String getIpAddress(HttpServletRequest request) {
