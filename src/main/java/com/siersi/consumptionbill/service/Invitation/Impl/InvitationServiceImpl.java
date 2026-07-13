@@ -21,7 +21,6 @@ import com.siersi.consumptionbill.service.Invitation.InvitationService;
 import com.siersi.consumptionbill.service.User.UserService;
 import com.siersi.consumptionbill.vo.InvitationVo;
 import com.siersi.consumptionbill.websocket.WebSocketService;
-import jakarta.annotation.Resource;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -167,9 +166,14 @@ public class InvitationServiceImpl extends ServiceImpl<InvitationMapper, Invitat
         Long userId = userService.getIdByAuthorization(authorization);
 
         QueryWrapper queryWrapper = QueryWrapper.create()
+                .select("invitation.*, user.username AS inviter_Name, bill.bill_Name")
                 .from("invitation")
                 .eq("invitee_id", userId)
-                .eq("valid", 1);
+                .leftJoin("user").on("user.id = invitation.inviter_id")
+                .leftJoin("bill").on("bill.id = invitation.bill_id")
+                .eq("user.valid", 1)
+                .eq("bill.valid", 1)
+                .eq("invitation.valid", 1);
 
         return invitationVoMapper.selectListByQuery(queryWrapper);
     }

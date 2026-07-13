@@ -10,6 +10,7 @@ import com.siersi.consumptionbill.mapper.StatisticsVoMapper;
 import com.siersi.consumptionbill.mapper.TypeMapper;
 import com.siersi.consumptionbill.mapper.UserMapper;
 import com.siersi.consumptionbill.service.Statistics.StatisticsService;
+import com.siersi.consumptionbill.service.User.UserService;
 import com.siersi.consumptionbill.vo.PaymentVo;
 import com.siersi.consumptionbill.vo.StatisticsVo;
 import jakarta.annotation.Resource;
@@ -28,9 +29,12 @@ public class StatisticsServiceImpl extends ServiceImpl<StatisticsVoMapper,Statis
     private final StatisticsVoMapper statisticsVoMapper;
     private final UserMapper userMapper;
     private final TypeMapper typeMapper;
+    private final UserService userService;
 
     @Override
-    public List<StatisticsVo> getStatistics(StatisticDTO statisticDTO) {
+    public List<StatisticsVo> getStatistics(StatisticDTO statisticDTO, String authorization) {
+
+        Long userId = userService.getIdByAuthorization(authorization);
 
         if (billMapper.selectOneByQuery(QueryWrapper.create()
                 .eq("id", statisticDTO.getBillId())
@@ -42,6 +46,7 @@ public class StatisticsServiceImpl extends ServiceImpl<StatisticsVoMapper,Statis
                 .select("DATE(consumption_date) as time, SUM(item_price) as total")
                 .from("record")
                 .between("consumption_date", statisticDTO.getStartDate(), statisticDTO.getEndDate())
+                .eq("creator_id", userId)
                 .eq("bill_id", statisticDTO.getBillId())
                 .eq("valid", 1)
                 .groupBy("DATE(consumption_date)");

@@ -65,7 +65,8 @@ dependencies {
 tasks.withType<JavaCompile> {
     options.annotationProcessorPath = configurations.annotationProcessor.get()
     options.compilerArgs = listOf(
-        "-parameters"
+        "-parameters",
+        "-Amapstruct.unmappedTargetPolicy=IGNORE"
     )
 }
 

@@ -8,7 +8,7 @@ import com.siersi.consumptionbill.vo.StatisticsVo;
 import java.util.List;
 
 public interface StatisticsService extends IService<StatisticsVo> {
-    List<StatisticsVo> getStatistics(StatisticDTO statisticDTO);
+    List<StatisticsVo> getStatistics(StatisticDTO statisticDTO, String authorization);
 
     List<PaymentVo> getTypeSt(Long userId);
 }

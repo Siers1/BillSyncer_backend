@@ -1,13 +1,12 @@
 package com.siersi.consumptionbill.service.Notification.Impl;
 
+import cn.hutool.core.date.DateTime;
 import com.mybatisflex.core.query.QueryWrapper;
 import com.mybatisflex.spring.service.impl.ServiceImpl;
 import com.siersi.consumptionbill.entity.Notification;
 import com.siersi.consumptionbill.exception.BusinessException;
 import com.siersi.consumptionbill.mapper.NotificationMapper;
-import com.siersi.consumptionbill.service.Invitation.InvitationService;
 import com.siersi.consumptionbill.service.Notification.NotificationService;
-import jakarta.annotation.Resource;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,6 +28,7 @@ public class NotificationServiceImpl extends ServiceImpl<NotificationMapper, Not
         }
 
         notification.setIsRead(1);
+        notification.setReadTime(DateTime.now());
         notificationMapper.update(notification);
     }
 }

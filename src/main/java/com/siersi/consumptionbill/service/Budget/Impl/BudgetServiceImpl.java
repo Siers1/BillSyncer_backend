@@ -79,7 +79,7 @@ public class BudgetServiceImpl extends ServiceImpl<BudgetMapper, Budget> impleme
         UserBill userBill = userBillMapper.selectOneByQuery(qw1);
 
         if (userBill == null) {
-            throw new BusinessException("无操作权限");
+            throw new BusinessException(403, "无操作权限");
         }
 
         QueryWrapper qw2 = QueryWrapper.create()
@@ -116,7 +116,7 @@ public class BudgetServiceImpl extends ServiceImpl<BudgetMapper, Budget> impleme
         UserBill userBIll = userBillMapper.selectOneByQuery(qw);
 
         if (!userBIll.getUserId().equals(userId)) {
-            throw new BusinessException("无操作权限");
+            throw new BusinessException(403, "无操作权限");
         }
     }
 }

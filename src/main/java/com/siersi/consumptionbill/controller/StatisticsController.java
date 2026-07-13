@@ -20,8 +20,8 @@ public class StatisticsController {
     private final UserService userService;
 
     @PostMapping("/summary")
-    public Result<List<StatisticsVo>> getStatistics(@RequestBody @Valid StatisticDTO statisticDTO) {
-        return Result.success(statisticsService.getStatistics(statisticDTO));
+    public Result<List<StatisticsVo>> getStatistics(@RequestBody @Valid StatisticDTO statisticDTO, @RequestHeader("Authorization") String authorization) {
+        return Result.success(statisticsService.getStatistics(statisticDTO, authorization));
     }
 
     @GetMapping("/type")

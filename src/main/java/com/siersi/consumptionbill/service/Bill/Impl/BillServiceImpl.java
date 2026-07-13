@@ -167,7 +167,7 @@ public class BillServiceImpl extends ServiceImpl<BillMapper, Bill> implements Bi
 
         //同等级之间不能相互删除, 创建者可以删除管理员, 管理员可以删除成员
         if (opUserBill.getRoleId() >= targetUserBill.getRoleId()) {
-            throw new BusinessException("你的权限不足");
+            throw new BusinessException(403, "你的权限不足");
         }
 
         targetUserBill.setValid(0);
@@ -190,7 +190,7 @@ public class BillServiceImpl extends ServiceImpl<BillMapper, Bill> implements Bi
         Bill bill = billMapper.selectOneById(updateBillRequest.getBillId());
 
         if (bill == null) {
-            throw new BusinessException(400, "账本不存在");
+            throw new BusinessException(404, "账本不存在");
         }
 
         // 使用转换器将请求对象转换为实体对象
@@ -273,7 +273,7 @@ public class BillServiceImpl extends ServiceImpl<BillMapper, Bill> implements Bi
 
         // 如果指定了需要的角色,则验证权限
         if (requiredRole != null && !opUserBill.getRoleId().equals(requiredRole.getRoleId())) {
-            throw new BusinessException("你的权限不足");
+            throw new BusinessException(403, "你的权限不足");
         }
     }
 }
